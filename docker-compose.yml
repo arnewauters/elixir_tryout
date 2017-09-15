@@ -1,0 +1,22 @@
+version: "2"
+
+services:
+  postgres:
+    image: postgres:9.5
+    volumes_from:
+      - postgres_data
+    ports:
+      - "5432:5432"
+
+  postgres_data:
+    image: alpine:edge
+    command: /bin/true
+    volumes:
+      - /var/lib/postgresql/data
+
+  app:
+    image: msaraiva/elixir-dev
+    links:
+      - postgres
+    volumes:
+      - .:/srv:rw
